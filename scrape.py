@@ -24,8 +24,8 @@ if __name__ == "__main__":
     # Total number of tweets retrieved will be BATCHES_TO_RETRIEVE * 200
     BATCHES_TO_RETRIEVE = 16
 
-    START_DATE = datetime.date(2016, 1, 9)
-    END_DATE = datetime.date(2016, 5, 5)
+    START_DATE = datetime.date(2017, 1, 9)
+    END_DATE = datetime.date(2017, 5, 5)
 
     print("Authorizing...")
     consumer = oauth2.Consumer(key=MY_KEY, secret=MY_KEY_SECRET)
@@ -66,4 +66,21 @@ if __name__ == "__main__":
     data_frame = data_frame.reindex(index = data_frame.index[::-1])
     data_frame = data_frame.reset_index()
 
-    print(data_frame["created_at"])
+    events = []
+    event = {}
+    currently_down = False
+    tweet_frame = data_frame
+    for i, tweet in data_frame.iterrows():
+        if not currently_down and tweet["text"][0:15] == "The PRT is down":
+            event = {}
+            event["text_down"] = tweet["text"]
+            event["time_down"] = tweet["created_at"]
+            currently_down = True
+        if currently_down and tweet["text"][0:18] == "The PRT is running":
+            event["time_up"] = tweet["created_at"]
+            event["duration"] = str(parser.parse(event["time_up"]) - parser.parse(event["time_down"]))
+            events.append(event)
+            currently_down = False
+
+    result_frame = pd.DataFrame(events)
+    print(result_frame)
