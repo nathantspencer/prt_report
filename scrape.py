@@ -63,6 +63,7 @@ if __name__ == "__main__":
         parsed_date = datetime.date(parsed_datetime.year, parsed_datetime.month, parsed_datetime.day)
         if parsed_date < START_DATE or parsed_date > END_DATE:
             data_frame = data_frame.drop(i)
+    data_frame = data_frame.reindex(index = data_frame.index[::-1])
     data_frame = data_frame.reset_index()
 
-    print(data_frame)
+    print(data_frame["created_at"])
