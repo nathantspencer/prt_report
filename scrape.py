@@ -44,5 +44,8 @@ if __name__ == "__main__":
         response, content = client.request(request_url, "GET")
 
     data_frame = pd.DataFrame(tweets)
+    for i, tweet_text in enumerate(data_frame["text"]):
+        if tweet_text[0:15] != "The PRT is down" and tweet_text[0:18] !=  "The PRT is running":
+            data_frame = data_frame.drop(i)
 
-    # TODO: Cull non-relevant entries by their text content
+    print(data_frame)
