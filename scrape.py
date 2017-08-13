@@ -10,7 +10,7 @@ from dateutil import parser
 from keys import MY_KEY, MY_KEY_SECRET, MY_TOKEN, MY_TOKEN_SECRET
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 
-if __name__ == "__main__":
+def get_dataframe():
     KEY = MY_KEY
     KEY_SECRET = MY_KEY_SECRET
     TOKEN = MY_TOKEN
@@ -84,3 +84,4 @@ if __name__ == "__main__":
 
     result_frame = pd.DataFrame(events)
     print(result_frame)
+    return result_frame
