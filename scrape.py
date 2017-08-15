@@ -10,7 +10,7 @@ from dateutil import parser
 from keys import MY_KEY, MY_KEY_SECRET, MY_TOKEN, MY_TOKEN_SECRET
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 
-def get_dataframe():
+def write_downtime_csv():
     KEY = MY_KEY
     KEY_SECRET = MY_KEY_SECRET
     TOKEN = MY_TOKEN
@@ -83,5 +83,5 @@ def get_dataframe():
             currently_down = False
 
     result_frame = pd.DataFrame(events)
+    result_frame.to_csv("downtime.csv")
     print(result_frame)
-    return result_frame
